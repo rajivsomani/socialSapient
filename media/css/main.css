@@ -1,0 +1,47 @@
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+main,
+nav,
+section,
+summary {
+    display: block;
+}
+  
+
+html,body{width:100%; height: 100%; margin:0; padding: 0; color:#000; font:normal 13px/20px Verdana, san-serif;}
+.header{width:96%; height:50px; margin:0px 2%; background-color:#ffaa00; font-size:20px; font-weight:bold; }
+.header h3{text-align:center; margin:0; padding:0;}
+.back{display:none; cursor:pointer;}
+.footer{width:96%; height:50px; margin:0px 2%; background-color:#00cc00; font-size:20px; text-align:center; font-weight:bold;}
+.feedContainer{min-height:650px;}
+.row{width:96%; height:auto; margin:0px 2%; overflow:hidden; min-height:100px;}
+.col{width:48%; height:100px; float:left; margin:1% 1%; position:relative; -webkit-background-size: cover; background-size: cover;}
+.col img{height:90%; width:90%}	
+.col span{position:absolute; background-color:#000; opacity:0.5; height:auto; width:100%; color:#FFF; display:block;}
+.nitro{background-color:#00eeaa;}
+.gs{background-color:#00CCff;}
+.gm{background-color:#cc0011;}
+.twitter.nitro{background:#cc0011 url(../../media/img/twitter.png) no-repeat;}
+.facebook.nitro{background:#cc0011 url(../../media/img/facebook.png) no-repeat;}
+.news.nitro{background:#cc0011 url(../../media/img/news.png) no-repeat;}
+
+.twitter.gs{background:#00eeaa url(../../media/img/twitter.png) no-repeat;}
+.facebook.gs{background:#00eeaa url(../../media/img/facebook.png) no-repeat;}
+.news.gs{background:#00eeaa url(../../media/img/news.png) no-repeat;}
+
+.twitter.gm{background:#00CCff url(../../media/img/twitter.png) no-repeat;}
+.facebook.gm{background:#00CCff url(../../media/img/facebook.png) no-repeat;}
+.news.gm{background:#00CCff url(../../media/img/news.png) no-repeat;}
+
+.singlePost{width:90%; height:auto; margin:0px 5%; overflow:hidden; min-height:100px;}
+.details img{width:100%; height:100%; display:block;}
+
+@media all and (max-width: 500px) and (min-width: 50px) {
+    .col{width:100%; height:100px; float:left; margin:1% 4%; border:1px solid #dd0000;}
+}
