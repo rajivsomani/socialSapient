@@ -1,50 +1,151 @@
-article,
-aside,
-details,
-figcaption,
-figure,
-footer,
-header,
-hgroup,
-main,
-nav,
-section,
-summary {
-    display: block;
-}
-  
+/* GLOBAL STYLES
+    -------------------------------------------------- */
+    /* Padding below the footer and lighter body text */
 
-html,body{width:100%; height: 100%; margin:0; padding: 0; color:#000; font:normal 13px/20px Verdana, san-serif;}
-.header{width:96%; height:10%; margin:0px 2%; background-color:#ffaa00; font-size:20px; font-weight:bold; }
-.header h3{text-align:center; margin:0; padding:0;}
-.back{display:none; cursor:pointer;}
-.feedSelector{width:96%; height:80%; margin:0px 2%; background-color:#FFFF00;}
-.feedSelector div{text-align:center; margin:0; padding:0;}
-.footer{width:96%; height:10%; margin:0px 2%; background-color:#00cc00; font-size:20px; text-align:center; font-weight:bold;}
-/*.feedContainer{min-height:650px;}*/
-.row{width:96%; height:auto; margin:0px 2%; overflow:hidden; min-height:100px;}
-.col{width:48%; height:100px; float:left; margin:1% 1%; position:relative;}
-.col img{height:90%; width:90%}	
-.col span{position:absolute; background-color:#000; opacity:0.5; height:auto; width:100%; color:#FFF; display:block;}
-.nitro{background-color:#00eeaa;}
-.gs{background-color:#00CCff;}
-.gm{background-color:#cc0011;}
-.news{background:#FFA500 url(../../media/img/news.png) no-repeat;}
-.twitter.nitro{background:#cc0011 url(../../media/img/twitter.png) no-repeat;}
-.facebook.nitro{background:#cc0011 url(../../media/img/facebook.png) no-repeat;}
-.news.nitro{background:#cc0011 url(../../media/img/news.png) no-repeat;}
+    body {
+      padding-bottom: 40px;
+      color: #5a5a5a;
+    }
 
-.twitter.gs{background:#00eeaa url(../../media/img/twitter.png) no-repeat;}
-.facebook.gs{background:#00eeaa url(../../media/img/facebook.png) no-repeat;}
-.news.gs{background:#00eeaa url(../../media/img/news.png) no-repeat;}
 
-.twitter.gm{background:#00CCff url(../../media/img/twitter.png) no-repeat;}
-.facebook.gm{background:#00CCff url(../../media/img/facebook.png) no-repeat;}
-.news.gm{background:#00CCff url(../../media/img/news.png) no-repeat;}
 
-.singlePost{width:90%; height:auto;overflow:hidden;}
-.details img{width:100%; height:100%; display:block;}
+    /* CUSTOMIZE THE NAVBAR
+    -------------------------------------------------- */
 
-@media all and (max-width: 500px) and (min-width: 50px) {
-    .col{width:100%; height:100px; float:left; margin:1% 4%; border:1px solid #dd0000;}
-}
+    /* Special class on .container surrounding .navbar, used for positioning it into place. */
+    .navbar-wrapper {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 10;
+      margin-top: 20px;
+      margin-bottom: -90px; /* Negative margin to pull up carousel. 90px is roughly margins and height of navbar. */
+    }
+    .navbar-wrapper .navbar {
+
+    }
+
+    /* Remove border and change up box shadow for more contrast */
+    .navbar .navbar-inner {
+      border: 0;
+      -webkit-box-shadow: 0 2px 10px rgba(0,0,0,.25);
+         -moz-box-shadow: 0 2px 10px rgba(0,0,0,.25);
+              box-shadow: 0 2px 10px rgba(0,0,0,.25);
+    }
+
+    /* Downsize the brand/project name a bit */
+    .navbar .brand {
+      padding: 14px 20px 16px; /* Increase vertical padding to match navbar links */
+      font-size: 16px;
+      font-weight: bold;
+      text-shadow: 0 -1px 0 rgba(0,0,0,.5);
+    }
+
+    /* Navbar links: increase padding for taller navbar */
+    .navbar .nav > li > a {
+      padding: 15px 20px;
+    }
+
+    /* Offset the responsive button for proper vertical alignment */
+    .navbar .btn-navbar {
+      margin-top: 10px;
+    }
+
+
+
+
+    /* MARKETING CONTENT
+    -------------------------------------------------- */
+
+    /* Center align the text within the three columns below the carousel */
+    .marketing .span6 {
+      text-align: center;
+    }
+    .marketing h2 {
+      font-weight: normal;
+    }
+    .marketing .span6 p {
+      margin-left: 10px;
+      margin-right: 10px;
+    }
+
+
+    /* Featurettes
+    ------------------------- */
+
+    .featurette-divider {
+      margin: 80px 0; /* Space out the Bootstrap <hr> more */
+    }
+    .featurette {
+      padding-top: 120px; /* Vertically center images part 1: add padding above and below text. */
+      overflow: hidden; /* Vertically center images part 2: clear their floats. */
+    }
+    .featurette-image {
+      margin-top: -120px; /* Vertically center images part 3: negative margin up the image the same amount of the padding to center it. */
+    }
+
+    /* Give some space on the sides of the floated elements so text doesn't run right into it. */
+    .featurette-image.pull-left {
+      margin-right: 40px;
+    }
+    .featurette-image.pull-right {
+      margin-left: 40px;
+    }
+
+    /* Thin out the marketing headings */
+    .featurette-heading {
+      font-size: 50px;
+      font-weight: 300;
+      line-height: 1;
+      letter-spacing: -1px;
+    }
+	
+	.navbar-inverse .navbar-inner{background-image:linear-gradient(to bottom, #EB3003, #111111); background-color:#EB3003;	}
+	.navbar-inverse .nav .active > a, .navbar-inverse .nav .active > a:hover, .navbar-inverse .nav .active > a:focus{background-image:linear-gradient(to bottom, #EB3003, #111111);}
+
+    /* RESPONSIVE CSS
+    -------------------------------------------------- */
+
+    @media (max-width: 979px) {
+
+      .container.navbar-wrapper {
+        margin-bottom: 0;
+        width: auto;
+      }
+      .navbar-inner {
+        border-radius: 0;
+        margin: 0px 0;
+      }
+      .featurette {
+        height: auto;
+        padding: 0;
+      }
+      .featurette-image.pull-left,
+      .featurette-image.pull-right {
+        display: block;
+        float: none;
+        max-width: 40%;
+        margin: 0 auto 20px;
+      }
+    }
+
+
+    @media (max-width: 767px) {
+
+      .navbar-inner {
+        margin: -20px;
+      }
+      .marketing .span6 + .span6 {
+        margin-top: 40px;
+      }
+
+      .featurette-heading {
+        font-size: 30px;
+      }
+      .featurette .lead {
+        font-size: 18px;
+        line-height: 1.5;
+      }
+
+    }

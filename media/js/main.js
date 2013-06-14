@@ -16,7 +16,7 @@ function reset(){
 	streams.twGS = '',
 	streams.twGM = '';
 }
-function commonAJAX(streamUrl, type, dataClass, isLast){
+function commonAJAX(streamUrl, type, dataClass, title, image,  isLast){
 var api = "http://ajax.googleapis.com/ajax/services/feed/load?v=1.0&callback=?&q=" + encodeURIComponent(streamUrl);
 			api += "&num=10";
 			api += "&output=json_xml"
@@ -27,9 +27,11 @@ var api = "http://ajax.googleapis.com/ajax/services/feed/load?v=1.0&callback=?&q
 	  crossDomain: true,
 	  success: function(data){if(typeof data.error != 'undefined') { return false;  }
 	  $.each(data.responseData.feed.entries, function(i){
-		data.responseData.feed.entries[i].author = dataClass;
+		data.responseData.feed.entries[i].author = title;
+		data.responseData.feed.entries[i].feedClass = dataClass;
+		data.responseData.feed.entries[i].image = image;
 		if($.trim(data.responseData.feed.entries[i].title) == ''){
-			data.responseData.feed.entries[i].title = 'Sapient';
+			data.responseData.feed.entries[i].title = title;
 		}
 	  });
 		switch(type){
@@ -77,16 +79,22 @@ function alphaBeta(){
 	streams.feeds.sort(feed_sort);
 	var _html = '';
 	$.each(streams.feeds, function(i, streamFeed){
-		if(i%2){
-			_html+= '<a href="'+ streamFeed.link +'" target="_blank" class="col '+ streamFeed.author +'" data-id="'+ i +'">';
-			_html+= '<span>'+ streamFeed.title +'</span></a></div>';
-		}else{
-			_html+= '<div class="row">';
-			_html+= '<a href="'+ streamFeed.link +'" target="_blank" class="col '+ streamFeed.author +'" data-id="'+ i +'">';
-			_html+= '<span>'+ streamFeed.title +'</span></a>';
-		}
+		_html += '<div class="span6 '+ streamFeed.feedClass +'">',
+		_html += '<img class="img-circle" src="media/img/'+ streamFeed.image +'.png">',
+		_html += '<h2>'+ streamFeed.author +'</h2>',
+		_html += '<p>'+ streamFeed.title +'</p>',
+		//_html += '<p><a class="btn" href="'+ streamFeed.link +'">View details &raquo;</a></p>';
+		
+		_html += '<p><a href="#myModal'+i+'" role="button" class="btn" data-toggle="modal">View details &raquo;</a></p>';
+		_html += '<div id="myModal'+i+'" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">',
+		_html += '<div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>',
+		_html += '<h3 id="myModalLabel">'+ streamFeed.author +'</h3>',
+		_html += '</div>',
+		_html += '<div class="modal-body"><h4>'+ streamFeed.title +'</h4><p>'+ streamFeed.content +'</p></div>';
+		_html += '<div class="modal-footer"><a class="btn" target="_blank" href="'+ streamFeed.link +'">View details &raquo;</a></div>',
+		_html += '</div></div>';
 	});
-	$('.feedContainer').hide().html(_html).slideDown('slow');
+	$('.row').hide().html(_html).slideDown(1000);
 }
 function showSingleFeed(dataId){
 	$('.feedContainer').hide();
@@ -101,12 +109,31 @@ function showSingleFeed(dataId){
 	$('.singlePost').html(_singleData).slideDown('slow');
 }
 
+function getFeed(getFeedFor){
+	reset();
+	if(getFeedFor == 'nitro' || getFeedFor == 'all'){
+			commonAJAX('http://www.facebook.com/feeds/page.php?id=91839569587&format=rss20', 'fbNitro', 'facebook nitro', 'SapientNitro', 'facebook');
+			commonAJAX('http://api.twitter.com/1/statuses/user_timeline.rss?screen_name=sapientnitro', 'twNitro', 'twitter nitro', 'SapientNitro', 'twitter');
+	}
+	if(getFeedFor == 'gs' || getFeedFor == 'all'){
+		commonAJAX('https://www.facebook.com/feeds/page.php?id=113252395372359&format=rss20', 'fbGS', 'facebook gs', 'Sapient Government Services', 'facebook');
+		commonAJAX('https://api.twitter.com/1/statuses/user_timeline.rss?screen_name=Sapientgov', 'twGS', 'twitter gs', 'Sapient Government Services', 'twitter');
+	}
+	if(getFeedFor == 'gm' || getFeedFor == 'all'){
+		commonAJAX('http://api.twitter.com/1/statuses/user_timeline.rss?screen_name=sapientgm', 'twGM', 'twitter gm', 'Sapient Global Markets', 'twitter');
+	}
+	commonAJAX('http://www.sapient.com/en-us/News/Press-Releases/rss.xml', 'newsNitro', 'news', 'Sapient News', 'news',  0); 
+}
 $(function(){
 $(document).on('click','.col', function(event){
 	event.preventDefault();
 	showSingleFeed($(this).data('id'));
 });
 
+$(document).on('click', '.nav li', function(event){
+	event.preventDefault();
+	getFeed($(this).children('a').attr('href').replace('#',''));
+});
 $(document).on('click','.back', function(event){
 	event.preventDefault();
 	$('.feedSelector').show();
@@ -114,33 +141,5 @@ $(document).on('click','.back', function(event){
 	$('.back').hide();
 	$('.singlePost').hide();
 });
-
-$(document).on('click', '.getFeed', function(event){
-	var _selectedCheck = $('input[name="feedSel"]:checked'),
-		_getLast = 0,
-		_getFeed = _selectedCheck.serialize(),
-		_getFeed = _getFeed.replace(/feedSel=/g, ''),
-		_getFeed = _getFeed.split('&');
-	if(_selectedCheck.length > 0){
-		_getLast = _selectedCheck.length;
-		reset();
-		commonAJAX('http://www.sapient.com/en-us/News/Press-Releases/rss.xml', 'newsNitro', 'news'); 
-		if(_getFeed.indexOf('nitro') !== -1){
-			_getLast--;
-			commonAJAX('http://www.facebook.com/feeds/page.php?id=91839569587&format=rss20', 'fbNitro', 'facebook nitro');
-			commonAJAX('http://api.twitter.com/1/statuses/user_timeline.rss?screen_name=sapientnitro', 'twNitro', 'twitter nitro', _getLast);
-		}
-		if(_getFeed.indexOf('gs') !== -1){
-			_getLast--;
-			commonAJAX('https://www.facebook.com/feeds/page.php?id=113252395372359&format=rss20', 'fbGS', 'facebook gs');
-			commonAJAX('https://api.twitter.com/1/statuses/user_timeline.rss?screen_name=Sapientgov', 'twGS', 'twitter gs', _getLast);
-		}
-		if(_getFeed.indexOf('gm') !== -1){
-			_getLast--;
-			commonAJAX('http://api.twitter.com/1/statuses/user_timeline.rss?screen_name=sapientgm', 'twGM', 'twitter gm', _getLast);
-		}
-	}else{
-		return false;
-	}
-});
+getFeed('all');
 });
